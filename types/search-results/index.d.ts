@@ -5,6 +5,18 @@ interface SearchResultDoc {
     first_publish_year: number;
     key: string;
     title: string;
+    cover_url: string;
+    work_data: {
+        subjects: string[];
+        description: {
+            value: string;
+        }
+    }
+    reviews: {
+        summary: {
+            average: number;
+        }
+    };
 }
 
 

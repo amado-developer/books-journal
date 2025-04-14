@@ -35,12 +35,11 @@ export default function RootLayout({
             alt="logo"
             width={150}
             height={150}
-            layout="fixed"
           />
         </header>
         <div className="max-w-7xl mx-auto flex-1 p-4 w-full h-full">{children}</div>
-        <footer className="bg-black p-4 h-[50px] flex items-center justify-center">
-          <p className="text-white">© 2025 A-Dev All rights reserved</p>
+        <footer className="bg-black p-4 h-[60px] flex items-center justify-center">
+          <p className="text-white text-xl">© 2025 A-Dev All rights reserved</p>
         </footer>
       </body>
     </html>

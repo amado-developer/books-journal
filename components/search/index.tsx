@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchBooksByName } from "@/api/index";
+import { fetchBookReviews, fetchBooksByName, fetchBookWorkData } from "@/api/index";
 import HomeSkeleton from "../skeleton/home";
 import SearchResult from "./search-result";
 
@@ -16,9 +16,30 @@ const Search = () => {
     setIsSearching(true);
     setIsLoading(true);
     await fetchBooksByName(search, currentPage, 10)
-      .then((res) => {
+      .then(async (res) => {
+        console.log(res);
+
+        const processDocsWithCover = async (docs: any[]) => {
+          return Promise.all(
+            docs.map(async (doc: any) => {
+              if (doc.cover_i) {
+                return {
+                  ...doc,
+                  cover_url: `https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg`,
+                  work_data: await fetchBookWorkData(doc.key),
+                  reviews: await fetchBookReviews(doc.key),
+                };
+              }
+       
+              return doc;
+            })
+          );
+        };
+
+        const docsWithCover = await processDocsWithCover(res?.docs || []);
+        console.log("docsWithCover", docsWithCover);
+        setSearchData({ ...res, docs: docsWithCover });
         setIsLoading(false);
-        setSearchData(res);
       })
       .catch((err) => {
         console.log(err);
